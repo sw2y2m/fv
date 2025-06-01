@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P1R4T3RX Tools Hub</title>
+
+<style>
+  /* Base reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Source Code Pro', monospace;
+  }
+  
+  :root {
+    --primary: #9D00FF;
+    --primary-dark: #0a0014;
+    --primary-darker: #050008;
+    --primary-light: #B23AEE;
+    --accent: #FF00FF;
+    --accent-dark: #8B008B;
+    --text-light: #fff;
+    --text-dark: #0a0014;
+    --text-muted: #b794f6;
+    --gradient-primary: linear-gradient(135deg, #9D00FF, #4B0082);
+    --gradient-dark: linear-gradient(135deg, #0a0014 0%, #1a0033 100%);
+    --gradient-glow: linear-gradient(45deg, var(--primary) 0%, var(--accent) 100%);
+    --shadow-neon: 0 0 15px rgba(157, 0, 255, 0.5);
+    --neon-border: 1px solid rgba(157, 0, 255, 0.3);
+  }
+
+  @font-face {
+    font-family: 'Cyber';
+    src: url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  }
+
+  body {
+    background: var(--primary-darker);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Enhanced Background Effects */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(157, 0, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 50%);
+    z-index: -1;
+    animation: backgroundPulse 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes backgroundPulse {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  /* Cyber Grid Background */
+  .cyber-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(157, 0, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(157, 0, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: -1;
+    animation: gridPulse 10s infinite linear;
+  }
+
+  @keyframes gridPulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0.3; }
+  }
+
+  .cyber-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: particleFloat 20s infinite linear;
+  }
+
+  @keyframes particleFloat {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) translateX(100vw); opacity: 0; }
+  }
+
+  /* Enhanced Header */
+  header {
+    background: var(--primary-dark);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 100;
+    border-bottom: var(--neon-border);
+    box-shadow: 
+      0 0 20px rgba(157, 0, 255, 0.3),
+      0 0 40px rgba(157, 0, 255, 0.2),
+      0 0 60px rgba(157, 0, 255, 0.1);
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 
+      0 0 10px var(--primary),
+      0 0 20px var(--primary),
+      0 0 30px var(--primary);
+    animation: logoGlow 2s infinite alternate;
+  }
+
+  @keyframes logoGlow {
+    from { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); }
+    to { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary), 0 0 40px var(--accent); }
+  }
+
+  .logo-icon {
+    font-size: 2.5rem;
+    animation: iconSpin 3s infinite linear;
+  }
+
+  @keyframes iconSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Enhanced Search Box */
+  .search-container {
+    position: relative;
+    width: 400px;
+    margin: 0 2rem;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 12px 45px 12px 20px;
+    background: rgba(10, 0, 20, 0.8);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+    background: rgba(10, 0, 20, 0.9);
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    animation: searchPulse 2s infinite alternate;
+  }
+
+  @keyframes searchPulse {
+    from { transform: translateY(-50%) scale(1); }
+    to { transform: translateY(-50%) scale(1.2); }
+  }
+
+  /* Enhanced Tool Cards */
+  .tool-card {
+    background: var(--primary-dark);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(157, 0, 255, 0.2),
+      transparent
+    );
+    transition: all 0.5s ease;
+    transform: rotate(45deg);
+  }
+
+  .tool-card:hover::before {
+    top: -50%;
+    left: -50%;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 0 20px rgba(157, 0, 255, 0.3),
+      0 0 40px rgba(157, 0, 255, 0.2);
+  }
+
+  /* Tool Modal */
+  .tool-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 0, 8, 0.95);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .tool-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--primary-dark);
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    padding: 2rem;
+    position: relative;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+  }
+
+  .tool-modal.active .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-dark);
+    border: 2px solid var(--primary);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .modal-close:hover {
+    background: var(--primary);
+    transform: rotate(180deg);
+  }
+
+  /* Tool Content */
+  .tool-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .feature-card {
+    background: rgba(10, 0, 20, 0.8);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.3);
+  }
+
+  /* Buttons */
+  .cyber-button {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--text-light);
+    padding: 12px 30px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .cyber-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(157, 0, 255, 0.4),
+      transparent
+    );
+    transition: all 0.5s ease;
+  }
+
+  .cyber-button:hover::before {
+    left: 100%;
+  }
+
+  .cyber-button:hover {
+    background: var(--primary);
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+  }
+
+  /* Enhanced Loading Animation */
+  .cyber-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 0, 8, 0.95);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .cyber-loader {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .cyber-loader-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-radius: 50%;
+    animation: rotateLoader 2s linear infinite;
+  }
+
+  .cyber-loader-circle:nth-child(1) {
+    border-top-color: var(--primary);
+  }
+
+  .cyber-loader-circle:nth-child(2) {
+    border-right-color: var(--accent);
+    animation-delay: 0.5s;
+  }
+
+  .cyber-loader-circle:nth-child(3) {
+    border-bottom-color: var(--primary-light);
+    animation-delay: 1s;
+  }
+
+  @keyframes rotateLoader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-text {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: textGlow 1.5s infinite alternate;
+  }
+
+  @keyframes textGlow {
+    from { text-shadow: 0 0 10px var(--primary); }
+    to { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--accent); }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .search-container { width: 300px; }
+    .tool-content { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .logo { font-size: 1.5rem; }
+    .search-container { width: 200px; }
+    .tool-content { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 0 1rem; }
+    .logo { font-size: 1.2rem; }
+    .search-container { display: none; }
+  }
+
+  /* Advanced Authentication Styles */
+  .auth-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 0, 8, 0.95);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .auth-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .auth-container {
+    width: 90%;
+    max-width: 500px;
+    background: var(--primary-dark);
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    padding: 2rem;
+    position: relative;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+  }
+
+  .auth-modal.active .auth-container {
+    transform: scale(1);
+  }
+
+  .auth-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--primary);
+  }
+
+  .auth-tab {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .auth-tab.active {
+    color: var(--text-light);
+  }
+
+  .auth-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    animation: tabGlow 1.5s infinite alternate;
+  }
+
+  @keyframes tabGlow {
+    from { box-shadow: 0 0 5px var(--accent); }
+    to { box-shadow: 0 0 15px var(--accent); }
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(10, 0, 20, 0.8);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.3);
+  }
+
+  .form-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .form-input:focus + .form-label,
+  .form-input:not(:placeholder-shown) + .form-label {
+    top: -10px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: var(--primary-dark);
+    padding: 0 5px;
+  }
+
+  /* Puzzle Captcha */
+  .puzzle-captcha {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    background: rgba(10, 0, 20, 0.8);
+  }
+
+  .puzzle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-top: 1rem;
+  }
+
+  .puzzle-piece {
+    aspect-ratio: 1;
+    background: var(--primary-dark);
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--text-light);
+  }
+
+  .puzzle-piece:hover {
+    background: var(--primary);
+    transform: scale(1.1);
+  }
+
+  .puzzle-piece.correct {
+    background: var(--accent);
+    animation: correctPiece 0.5s ease;
+  }
+
+  @keyframes correctPiece {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* Live Chat */
+  .chat-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 400px;
+    background: var(--primary-dark);
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    overflow: hidden;
+    transform: translateY(calc(100% - 50px));
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .chat-widget.active {
+    transform: translateY(0);
+  }
+
+  .chat-container {
+    display: flex;
+    height: 500px;
+  }
+
+  .chat-users {
+    width: 150px;
+    border-right: 1px solid var(--primary);
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-list {
+    margin-top: 1rem;
+  }
+
+  .chat-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .chat-user:hover {
+    background: rgba(157, 0, 255, 0.1);
+  }
+
+  .user-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #666;
+  }
+
+  .user-status.online {
+    background: #00ff00;
+    box-shadow: 0 0 5px #00ff00;
+  }
+
+  .chat-message {
+    margin: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    background: rgba(157, 0, 255, 0.1);
+    animation: messageSlide 0.3s ease;
+  }
+
+  .chat-message.own {
+    background: var(--primary);
+    margin-left: 2rem;
+  }
+
+  .chat-message.system {
+    background: rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .message-content {
+    word-break: break-word;
+  }
+
+  .online-count {
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  /* Advanced Particle Effects */
+  .particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: particleFloat 20s infinite linear;
+  }
+
+  @keyframes particleFloat {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) translateX(100vw); opacity: 0; }
+  }
+
+  /* Neural Network Background */
+  .neural-network {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .node {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: nodePulse 2s infinite alternate;
+  }
+
+  .connection {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, var(--primary), transparent);
+    transform-origin: left center;
+    animation: connectionPulse 2s infinite alternate;
+  }
+
+  @keyframes nodePulse {
+    0% { transform: scale(1); opacity: 0.3; }
+    100% { transform: scale(1.5); opacity: 1; }
+  }
+
+  @keyframes connectionPulse {
+    0% { opacity: 0.1; }
+    100% { opacity: 0.5; }
+  }
+
+  /* Holographic Effects */
+  .hologram {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hologram::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(157, 0, 255, 0.1) 50%,
+      transparent 100%
+    );
+    animation: hologramRotate 10s linear infinite;
+  }
+
+  @keyframes hologramRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Glitch Effect */
+  .glitch {
+    position: relative;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--accent);
+    animation: glitch-1 2s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: -2px;
+    text-shadow: 1px 0 var(--primary);
+    animation: glitch-2 3s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-1 {
+    0% { clip: rect(20px, 9999px, 21px, 0); }
+    100% { clip: rect(42px, 9999px, 44px, 0); }
+  }
+
+  @keyframes glitch-2 {
+    0% { clip: rect(12px, 9999px, 14px, 0); }
+    100% { clip: rect(32px, 9999px, 34px, 0); }
+  }
+
+  /* Add these styles */
+  .tool-page {
+    padding: 2rem;
+    background: var(--primary-dark);
+    border-radius: var(--border-radius-lg);
+    border: var(--neon-border);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+
+  .tool-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: var(--neon-border);
+  }
+
+  .tool-page-title {
+    font-size: 2rem;
+    color: var(--text-light);
+    text-shadow: var(--neon-glow);
+  }
+
+  .tool-page-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .tool-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .feature-card {
+    background: rgba(10, 0, 20, 0.8);
+    border: 1px solid var(--primary);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-neon);
+  }
+
+  .feature-card h4 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    text-shadow: var(--neon-glow);
+  }
+
+  .feature-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .feature-card li {
+    color: var(--text-muted);
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .feature-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+  }
+
+  .chat-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 360px;
+    background: var(--primary-dark);
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    overflow: hidden;
+    transform: translateY(calc(100% - 50px));
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .chat-widget.active {
+    transform: translateY(0);
+  }
+
+  .chat-header {
+    padding: 1rem;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .chat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  .chat-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    animation: statusPulse 2s infinite;
+  }
+
+  @keyframes statusPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .chat-messages {
+    height: 300px;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .chat-message {
+    max-width: 80%;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    animation: messageSlide 0.3s ease;
+  }
+
+  .chat-message.own {
+    align-self: flex-end;
+    background: var(--primary);
+    color: var(--text-light);
+  }
+
+  .chat-message.expert {
+    align-self: flex-start;
+    background: rgba(157, 0, 255, 0.2);
+    color: var(--text-light);
+  }
+
+  @keyframes messageSlide {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .chat-input {
+    display: flex;
+    padding: 1rem;
+    gap: 0.5rem;
+    border-top: 1px solid var(--primary);
+  }
+
+  .chat-input input {
+    flex: 1;
+    padding: 0.8rem;
+    background: rgba(10, 0, 20, 0.8);
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    color: var(--text-light);
+  }
+
+  .chat-input button {
+    padding: 0.8rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .chat-input button:hover {
+    background: var(--accent);
+    transform: scale(1.1);
+  }
+
+  /* Add Left Sidebar Styles */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 80px;
+    width: 280px;
+    height: calc(100vh - 80px);
+    background: var(--primary-dark);
+    border-right: var(--neon-border);
+    padding: 1rem;
+    overflow-y: auto;
+    z-index: 100;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-category {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-category h3 {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--primary);
+    text-shadow: var(--neon-glow);
+  }
+
+  .tool-group {
+    margin-bottom: 1rem;
+  }
+
+  .tool-group-name {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .tool-list {
+    list-style: none;
+    padding-left: 1rem;
+  }
+
+  .tool-item {
+    margin: 0.5rem 0;
+  }
+
+  .tool-link {
+    color: var(--text-light);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .tool-link:hover {
+    background: rgba(157, 0, 255, 0.2);
+    transform: translateX(5px);
+  }
+
+  .tool-icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  /* Live Cyberattack Map Styles */
+  .cyber-map-container {
+    position: fixed;
+    right: 2rem;
+    top: 100px;
+    width: 400px;
+    height: 300px;
+    background: var(--primary-dark);
+    border: var(--neon-border);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 90;
+  }
+
+  .cyber-map {
+    width: 100%;
+    height: 100%;
+    background: url('https://cdn.jsdelivr.net/npm/world-map-svg@1.0.1/world-map.svg');
+    background-size: cover;
+    position: relative;
+  }
+
+  .attack-point {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: attackPulse 2s infinite;
+  }
+
+  .attack-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, #ff0000, transparent);
+    transform-origin: left center;
+    animation: attackLine 2s forwards;
+  }
+
+  @keyframes attackPulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+  }
+
+  @keyframes attackLine {
+    0% { transform: scaleX(0); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+
+  .attack-stats {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: rgba(10, 0, 20, 0.9);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+    color: var(--primary);
+    text-shadow: var(--neon-glow);
+  }
+
+  /* Main Content Adjustment */
+  main {
+    margin-left: 280px;
+    padding: 2rem;
+  }
+</style>
+
+<div class="cyber-grid"></div>
+<div class="cyber-particles" id="particles"></div>
+
+<header>
+  <h1>P1R4T3RX</h1>
+  <div class="search-container">
+    <input id="searchBox" type="search" placeholder="Search tools, categories..." autocomplete="off" />
+    <span class="search-icon">🔍</span>
+  </div>
+  <div class="profile" id="profileBtn" tabindex="0" aria-label="User Profile">
+    <img src="https://i.pravatar.cc/36" alt="User Avatar" />
+    <span class="profile-name">Guest</span>
+  </div>
+</header>
+
+<main>
+  <div id="toolsContainer"></div>
+</main>
+
+<div class="sidebar">
+  <div class="sidebar-category">
+    <h3>Offensive Security</h3>
+    <div class="tool-group">
+      <div class="tool-group-name">Exploitation</div>
+      <ul class="tool-list">
+        <li class="tool-item">
+          <a href="#" class="tool-link" onclick="selectTool('Exploit Database')">
+            <span class="tool-icon">🔍</span>
+            Exploit Database
+          </a>
+        </li>
+        <li class="tool-item">
+          <a href="#" class="tool-link" onclick="selectTool('Payload Generator')">
+            <span class="tool-icon">🎯</span>
+            Payload Generator
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="sidebar-category">
+    <h3>Defensive Security</h3>
+    <div class="tool-group">
+      <div class="tool-group-name">Threat Detection</div>
+      <ul class="tool-list">
+        <li class="tool-item">
+          <a href="#" class="tool-link" onclick="selectTool('Threat Hunter Pro')">
+            <span class="tool-icon">🛡️</span>
+            Threat Hunter Pro
+          </a>
+        </li>
+        <li class="tool-item">
+          <a href="#" class="tool-link" onclick="selectTool('Malware Analysis Lab')">
+            <span class="tool-icon">🔬</span>
+            Malware Analysis Lab
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="cyber-map-container">
+  <div class="cyber-map" id="cyberMap">
+    <div class="attack-stats">
+      <div class="stat-item">
+        <div class="stat-value" id="attackCount">0</div>
+        <div class="stat-label">Attacks</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="activeThreats">0</div>
+        <div class="stat-label">Active Threats</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="blockedAttacks">0</div>
+        <div class="stat-label">Blocked</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tool data structure
+const data = {
+  scamFraud: {
+    name: "Scam & Fraud Detection",
+    groups: {
+      "Phishing Scanners": [
+        "URL Phishing Detector",
+        "Email Scam Analyzer",
+        "Phishing Domain Watcher",
+        "Suspicious Link Checker",
+        "Anti-Phishing AI Scanner"
+      ],
+      "Fraud Analytics": [
+        "Transaction Anomaly Detector",
+        "Fake Account Identifier",
+        "Deepfake Fraud Detector",
+        "Identity Theft Monitor",
+        "Payment Scam Tracker"
+      ],
+      "User Reports": [
+        "Crowdsource Scam Reports",
+        "Reputation Scoring",
+        "Report Aggregator",
+        "Blacklist Management",
+        "User Trust Score"
+      ]
+    }
+  },
+  aiCyber: {
+    name: "AI-Powered Cybersecurity",
+    groups: {
+      "AI Threat Detection": [
+        "AI Malware Identifier",
+        "Anomaly Behavior AI",
+        "AI Intrusion Predictor",
+        "Adaptive AI Firewall",
+        "AI Phishing Countermeasure"
+      ],
+      "Automation & Response": [
+        "Auto Incident Responder",
+        "AI SOC Assistant",
+        "Threat Hunting AI Bot",
+        "Automated Patch Management",
+        "AI-Driven Penetration Tester"
+      ],
+      "AI Analytics": [
+        "Predictive Risk Analysis",
+        "Vulnerability Forecast AI",
+        "User Behavior Modeling",
+        "AI Log Analyzer",
+        "Real-time AI Alerts"
+      ]
+    }
+  }
+  // ... other categories ...
+};
+
+// Initialize particles
+function initParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${Math.random() * 20}s`;
+    container.appendChild(particle);
+  }
+}
+
+// Create tool card
+function createToolCard(tool) {
+  const card = document.createElement('div');
+  card.className = 'tool-card';
+  card.innerHTML = `
+    <h3>${tool.name}</h3>
+    <p>${tool.description}</p>
+    <ul>
+      ${tool.features.map(f => `<li>${f}</li>`).join('')}
+    </ul>
+    <button class="cyber-button" onclick="selectTool('${tool.name}')">
+      Launch Tool
+    </button>
+  `;
+  return card;
+}
+
+// Create tool modal
+function createToolModal(tool) {
+  const modal = document.createElement('div');
+  modal.className = 'tool-modal';
+  modal.id = `modal-${tool.id}`;
+  modal.innerHTML = `
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeToolModal()">×</button>
+      <h2>${tool.name}</h2>
+      <div class="tool-content">
+        <div class="feature-card">
+          <h3>Features</h3>
+          <ul>
+            ${tool.features.map(f => `<li>${f}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h3>Statistics</h3>
+          <p>Active Users: 10,000+</p>
+          <p>Success Rate: 99.9%</p>
+          <p>Response Time: <1ms</p>
+        </div>
+        <div class="feature-card">
+          <h3>Requirements</h3>
+          <p>CPU: 4+ cores</p>
+          <p>RAM: 16GB+</p>
+          <p>Storage: 100GB+</p>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+// Open tool modal
+function openToolModal(toolId) {
+  showLoading();
+  setTimeout(() => {
+    hideLoading();
+    const modal = document.getElementById(`modal-${toolId}`);
+    modal.classList.add('active');
+  }, 1500);
+}
+
+// Close tool modal
+function closeToolModal(toolId) {
+  const modal = document.getElementById(`modal-${toolId}`);
+  modal.classList.remove('active');
+}
+
+// Show loading screen
+function showLoading() {
+  const loading = document.createElement('div');
+  loading.className = 'cyber-loading';
+  loading.innerHTML = `
+    <div class="cyber-loader">
+      <div class="cyber-loader-circle"></div>
+      <div class="cyber-loader-circle"></div>
+      <div class="cyber-loader-circle"></div>
+    </div>
+    <div class="loading-text">Initializing...</div>
+  `;
+  document.body.appendChild(loading);
+}
+
+// Hide loading screen
+function hideLoading() {
+  const loading = document.querySelector('.cyber-loading');
+  if (loading) {
+    loading.style.opacity = '0';
+    setTimeout(() => loading.remove(), 300);
+  }
+}
+
+// Initialize application
+function init() {
+  initParticles();
+  const container = document.getElementById('toolsContainer');
+  
+  Object.values(data).forEach(category => {
+    const section = document.createElement('section');
+    section.innerHTML = `<h2>${category.name}</h2>`;
+    
+    Object.entries(category.groups).forEach(([group, tools]) => {
+      const groupSection = document.createElement('section');
+      groupSection.innerHTML = `<h3>${group}</h3>`;
+      
+      tools.forEach(tool => {
+        const toolCard = createToolCard(tool);
+        groupSection.appendChild(toolCard);
+        createToolModal(tool);
+      });
+      
+      section.appendChild(groupSection);
+    });
+    
+    container.appendChild(section);
+  });
+}
+
+// Start the application
+document.addEventListener('DOMContentLoaded', init);
+
+function selectTool(toolName) {
+  selectedToolName = toolName;
+  showLoading();
+  
+  // Create tool page content
+  const toolPage = document.createElement('div');
+  toolPage.className = 'tool-page active';
+  
+  toolPage.innerHTML = `
+    <div class="tool-page-header">
+      <h2 class="tool-page-title">${toolName}</h2>
+      <div class="tool-page-actions">
+        <button class="cyber-button" onclick="launchTool('${toolName}')">Launch Tool</button>
+        <button class="cyber-button secondary">Documentation</button>
+      </div>
+    </div>
+    
+    <div class="tool-content">
+      <div class="feature-card">
+        <h4>Features</h4>
+        <ul>
+          <li>Real-time monitoring and analysis</li>
+          <li>Advanced threat detection</li>
+          <li>Customizable security rules</li>
+          <li>Detailed reporting system</li>
+        </ul>
+      </div>
+      
+      <div class="feature-card">
+        <h4>Requirements</h4>
+        <ul>
+          <li>Professional license</li>
+          <li>System compatibility check</li>
+          <li>Security clearance verification</li>
+        </ul>
+      </div>
+      
+      <div class="feature-card">
+        <h4>Usage Statistics</h4>
+        <ul>
+          <li>Active users: 10,000+</li>
+          <li>Success rate: 99.9%</li>
+          <li>Average response time: 0.5s</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  
+  // Clear content area and add new page
+  contentArea.innerHTML = '';
+  contentArea.appendChild(toolPage);
+  
+  // Add chat widget to tool page
+  const chatWidget = new ChatWidget(toolName);
+  toolPage.appendChild(chatWidget.element);
+  
+  hideLoading();
+}
+
+// Enhanced Chat Widget for Tools
+class ChatWidget {
+  constructor(context) {
+    this.context = context;
+    this.messages = [];
+    this.element = this.render();
+    this.setupEventListeners();
+  }
+  
+  render() {
+    const widget = document.createElement('div');
+    widget.className = 'chat-widget';
+    widget.innerHTML = `
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-status"></span>
+          ${this.context} Support
+          <span class="online-count">0 online</span>
+        </div>
+        <button class="chat-toggle">▼</button>
+      </div>
+      <div class="chat-container">
+        <div class="chat-users">
+          <h4>Online Users</h4>
+          <div class="user-list"></div>
+        </div>
+        <div class="chat-main">
+          <div class="chat-messages"></div>
+          <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button class="send-btn">Send</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return widget;
+  }
+  
+  setupEventListeners() {
+    const header = this.element.querySelector('.chat-header');
+    const input = this.element.querySelector('input');
+    const sendBtn = this.element.querySelector('.send-btn');
+    
+    header.addEventListener('click', () => {
+      this.element.classList.toggle('active');
+    });
+    
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMessage(input.value);
+        input.value = '';
+      }
+    });
+    
+    sendBtn.addEventListener('click', () => {
+      this.sendMessage(input.value);
+      input.value = '';
+    });
+  }
+  
+  sendMessage(text) {
+    if (!text.trim()) return;
+    
+    const messageEl = document.createElement('div');
+    messageEl.className = 'chat-message own';
+    messageEl.innerHTML = `
+      <div class="message-header">
+        <span class="user-name">You</span>
+        <span class="timestamp">${new Date().toLocaleTimeString()}</span>
+      </div>
+      <div class="message-content">${this.escapeHtml(text)}</div>
+    `;
+    
+    const messages = this.element.querySelector('.chat-messages');
+    messages.appendChild(messageEl);
+    messages.scrollTop = messages.scrollHeight;
+    
+    // Simulate expert response
+    setTimeout(() => {
+      const expertMessage = document.createElement('div');
+      expertMessage.className = 'chat-message expert';
+      expertMessage.innerHTML = `
+        <div class="message-header">
+          <span class="user-name">Expert</span>
+          <span class="timestamp">${new Date().toLocaleTimeString()}</span>
+        </div>
+        <div class="message-content">How can I help you with ${this.context}?</div>
+      `;
+      messages.appendChild(expertMessage);
+      messages.scrollTop = messages.scrollHeight;
+    }, 1000);
+  }
+  
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+}
+
+// Navigation to tool pages
+function launchTool(toolName) {
+  showLoading();
+  
+  // Create new page URL based on tool name
+  const pageUrl = toolName.toLowerCase().replace(/\s+/g, '-');
+  
+  // Simulate page navigation
+  setTimeout(() => {
+    hideLoading();
+    window.location.href = `/tools/${pageUrl}`;
+  }, 1500);
+}
+
+// Live Cyberattack Map
+class CyberAttackMap {
+  constructor() {
+    this.map = document.getElementById('cyberMap');
+    this.stats = {
+      attacks: 0,
+      threats: 0,
+      blocked: 0
+    };
+    this.init();
+  }
+
+  init() {
+    this.updateStats();
+    setInterval(() => this.simulateAttack(), 2000);
+  }
+
+  simulateAttack() {
+    const source = {
+      x: Math.random() * 100,
+      y: Math.random() * 100
+    };
+    
+    const target = {
+      x: Math.random() * 100,
+      y: Math.random() * 100
+    };
+
+    this.createAttackPoint(source);
+    this.createAttackLine(source, target);
+    
+    this.stats.attacks++;
+    this.stats.threats += Math.random() > 0.5 ? 1 : 0;
+    this.stats.blocked += Math.random() > 0.3 ? 1 : 0;
+    
+    this.updateStats();
+  }
+
+  createAttackPoint(pos) {
+    const point = document.createElement('div');
+    point.className = 'attack-point';
+    point.style.left = `${pos.x}%`;
+    point.style.top = `${pos.y}%`;
+    this.map.appendChild(point);
+    
+    setTimeout(() => point.remove(), 2000);
+  }
+
+  createAttackLine(source, target) {
+    const line = document.createElement('div');
+    line.className = 'attack-line';
+    
+    const length = Math.hypot(target.x - source.x, target.y - source.y);
+    const angle = Math.atan2(target.y - source.y, target.x - source.x);
+    
+    line.style.width = `${length}%`;
+    line.style.left = `${source.x}%`;
+    line.style.top = `${source.y}%`;
+    line.style.transform = `rotate(${angle}rad)`;
+    
+    this.map.appendChild(line);
+    setTimeout(() => line.remove(), 2000);
+  }
+
+  updateStats() {
+    document.getElementById('attackCount').textContent = this.stats.attacks;
+    document.getElementById('activeThreats').textContent = this.stats.threats;
+    document.getElementById('blockedAttacks').textContent = this.stats.blocked;
+  }
+}
+
+// Initialize components
+document.addEventListener('DOMContentLoaded', () => {
+  const cyberMap = new CyberAttackMap();
+  const globalChat = new ChatWidget('Global');
+  document.body.appendChild(globalChat.element);
+});
+</script>
+
+</body>
+</html>
+
